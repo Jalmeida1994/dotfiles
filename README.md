@@ -105,3 +105,5 @@ If you have suggestions for improving these dotfiles, please open an issue or su
 This project is open source and available under the [MIT License](LICENSE).
 
 Happy coding! 🚀
+
+[Back to Top ⬆️](#dotfiles)
