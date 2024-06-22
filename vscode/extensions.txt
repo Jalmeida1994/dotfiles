@@ -8,7 +8,6 @@ golang.go
 oderwat.indent-rainbow
 esbenp.prettier-vscode
 wayou.vscode-todo-highlight
-vscodevim.vim
 github.copilot
 mhutchie.git-graph
 yzhang.markdown-all-in-one

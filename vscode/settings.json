@@ -33,7 +33,7 @@
   "editor.rulers": [80, 120],
   "editor.wordWrap": "on",
   "editor.renderWhitespace": "boundary",
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.smoothScrolling": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
