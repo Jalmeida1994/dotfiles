@@ -28,10 +28,3 @@
     ci = commit
     st = status
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-
-[includeIf "gitdir:~/personal"]
-	path = /Users/almeijoa/.gitconfig-personal
-[includeIf "gitdir:~/work"]
-	path = /Users/almeijoa/.gitconfig-work
-[commit]
-	gpgsign = true
