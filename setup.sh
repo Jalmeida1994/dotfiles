@@ -35,7 +35,7 @@ fi
 
 # Install Homebrew packages
 echo "Installing Homebrew packages..."
-#brew bundle --file=./Brewfile
+brew bundle --file=./Brewfile
 
 # Set default shell to zsh if not already set
 if [[ $SHELL != */zsh ]]; then
