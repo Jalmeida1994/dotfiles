@@ -28,6 +28,20 @@ ln -sf "$DOTFILES_DIR/.gitignore_global" ~/.gitignore_global
 if ! command -v brew &> /dev/null; then
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add Homebrew to PATH for the current session
+    if [[ $(uname -m) == 'arm64' ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+
+    # Add Homebrew to PATH permanently
+    if [[ $(uname -m) == 'arm64' ]]; then
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    else
+        echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
+    fi
 else
     echo "Homebrew already installed. Updating..."
     brew update
@@ -35,7 +49,7 @@ fi
 
 # Install Homebrew packages
 echo "Installing Homebrew packages..."
-brew bundle --file=./Brewfile
+brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 # Set default shell to zsh if not already set
 if [[ $SHELL != */zsh ]]; then
@@ -47,6 +61,9 @@ fi
 echo "Setting up fzf..."
 $(brew --prefix)/opt/fzf/install --all
 
+echo "Installing Java versions..."
+./scripts/install_java.sh
+
 # Set macOS preferences
 echo "Setting macOS preferences..."
 ./scripts/macos_preferences.sh
@@ -54,6 +71,18 @@ echo "Setting macOS preferences..."
 # Install VS Code extensions
 echo "Installing VS Code extensions..."
 ./scripts/install_vscode_extensions.sh
+
+# VS Code settings
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    VSCODE_CONFIG_DIR="$HOME/Library/Application Support/Code/User"
+else
+    # Linux
+    VSCODE_CONFIG_DIR="$HOME/.config/Code/User"
+fi
+mkdir -p "$VSCODE_CONFIG_DIR"
+ln -sf "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_CONFIG_DIR/settings.json"
+ln -sf "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_CONFIG_DIR/keybindings.json"
 
 # Install Neovim plugins
 echo "Installing Neovim plugins..."
