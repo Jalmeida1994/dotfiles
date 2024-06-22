@@ -1,0 +1,7 @@
+[user]
+    name = Your Company Name
+    email = your.company.email@work.com
+    signingkey = yourworkgpgkey
+
+[core]
+    sshCommand = ssh -i ~/.ssh/id_rsa_work

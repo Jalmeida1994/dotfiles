@@ -1,0 +1,7 @@
+[user]
+    name = Your Personal Name
+    email = your.personal.email@gmail.com
+    signingkey = yourpersonalgpgkey
+
+[core]
+    sshCommand = ssh -i ~/.ssh/id_rsa_personal

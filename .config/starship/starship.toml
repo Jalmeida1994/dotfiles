@@ -1,0 +1,68 @@
+# ~/.config/starship.toml
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$kubernetes\
+$aws\
+$terraform\
+$docker_context\
+$python\
+$golang\
+$java\
+$nodejs\
+$cmd_duration\
+$line_break\
+$character"""
+
+[character]
+success_symbol = "[➜](bold green) "
+error_symbol = "[✗](bold red) "
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+
+[git_branch]
+symbol = " "
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "bold yellow"
+
+[kubernetes]
+format = 'on [⛵ $context \($namespace\)](dimmed green) '
+disabled = false
+
+[aws]
+symbol = " "
+
+[terraform]
+format = "via [💠 $version$workspace]($style) "
+
+[docker_context]
+format = "via [🐳 $context](blue bold) "
+
+[python]
+symbol = " "
+pyenv_version_name = true
+
+[golang]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[java]
+symbol = " "
+
+[package]
+symbol = " "
+
+[cmd_duration]
+min_time = 500
+format = "took [$duration](bold yellow) "
