@@ -1,3 +1,10 @@
+# Setup Homebrew
+if [[ $(uname -m) == 'arm64' ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -34,12 +41,9 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zdharma/fast-syntax-highlighting
 
-# Homebrew
-export PATH="/usr/local/bin:$PATH"
-
 # NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
+[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -83,9 +87,9 @@ bindkey '^ ' autosuggest-accept
 eval "$(starship init zsh)"
 
 # Aliases
-alias ll='exa -l --icons --git'
-alias la='exa -la --icons --git'
-alias ls='exa --icons --git'
+alias ll='eza -l --icons --git'
+alias la='eza -la --icons --git'
+alias ls='eza --icons --git'
 alias cat='bat --style=auto'
 alias grep='rg'
 alias find='fd'
