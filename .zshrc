@@ -5,6 +5,16 @@ else
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# NVM setup
+export NVM_DIR="$HOME/.nvm"
+[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"  # This loads nvm
+[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix nvm)/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# Ensure NVM-managed Node.js is used
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  export PATH="$NVM_DIR/versions/node/$(nvm version)/bin:$PATH"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -40,10 +50,6 @@ zinit light-mode for \
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zdharma/fast-syntax-highlighting
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
