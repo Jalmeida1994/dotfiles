@@ -50,6 +50,7 @@ zinit light-mode for \
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-completions
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -92,7 +93,11 @@ bindkey '^ ' autosuggest-accept
 # Use starship prompt
 eval "$(starship init zsh)"
 
+# Set DOCKER_HOST to colima.sock
+export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+
 # Aliases
+alias update='brew update && brew upgrade'
 alias ll='eza -l --icons --git'
 alias la='eza -la --icons --git'
 alias ls='eza --icons --git'
@@ -119,6 +124,13 @@ alias tf='terraform'
 alias tfi='terraform init'
 alias tfp='terraform plan'
 alias tfa='terraform apply'
+
+# Docker aliases
+alias docker-clean='docker system prune -af'
+alias docker-rmi='docker rmi $(docker images -q)'
+alias docker-rm='docker rm $(docker ps -aq)'
+alias docker-stop='docker stop $(docker ps -aq)'
+alias use-docker-context='docker context use $1 && set-docker-host'
 
 # Functions
 mkcd() {
