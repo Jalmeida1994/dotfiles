@@ -2040,6 +2040,12 @@
         "options": {
           "full_name": "rectangle"
         }
+      },
+      "font-fira-code": {
+        "version": "6.2",
+        "options": {
+          "full_name": "font-fira-code"
+        }
       }
     }
   },

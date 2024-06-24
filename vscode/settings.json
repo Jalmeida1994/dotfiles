@@ -1,24 +1,34 @@
 {
+  // Editor settings
   "editor.fontSize": 14,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "files.autoSave": "afterDelay",
-  "workbench.colorTheme": "Visual Studio Dark",
-  "workbench.iconTheme": "vscode-icons",
-  "terminal.integrated.shell.osx": "/bin/zsh",
-  "extensions.ignoreRecommendations": false,
-  "extensions.autoUpdate": true,
-  "explorer.confirmDragAndDrop": false,
-  "explorer.confirmDelete": false,
-  "git.enableSmartCommit": true,
-  "git.autofetch": true,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
-  "editor.minimap.enabled": false,
-  "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.formatOnPaste": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.fontFamily": "'Fira Code', 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.renderWhitespace": "boundary",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.minimap.enabled": true,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.maxColumn": 200,
+  "editor.renderLineHighlight": "all",
+  "editor.occurrencesHighlight": "singleFile",
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "editor.semanticHighlighting.enabled": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.inlineSuggest.enabled": true,
+
+  // File settings
+  "files.autoSave": "afterDelay",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -29,27 +39,37 @@
     "**/*.pyc": true,
     "**/__pycache__": true
   },
+
+  // Workbench settings
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "vscode-icons",
   "workbench.startupEditor": "newUntitledFile",
-  "editor.rulers": [80, 120],
-  "editor.wordWrap": "on",
-  "editor.renderWhitespace": "boundary",
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.smoothScrolling": true,
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true,
-  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
-  "terminal.integrated.fontSize": 14,
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "explorer.sortOrder": "type",
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.sideBar.location": "left",
+  "workbench.statusBar.visible": true,
+
+  // Terminal settings
+  "terminal.integrated.fontFamily": "'Fira Code', 'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.shell.osx": "/bin/zsh",
+
+  // Git settings
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
   "git.confirmSync": false,
-  "diffEditor.ignoreTrimWhitespace": false,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "python.linting.pylintEnabled": true,
-  "python.formatting.provider": "black",
-  "go.useLanguageServer": true,
+
+  // Explorer settings
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "explorer.sortOrder": "type",
+
+  // Extension settings
+  "extensions.ignoreRecommendations": false,
+  "extensions.autoUpdate": true,
+
+  // Language-specific settings
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
@@ -65,10 +85,58 @@
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
+
+  // Prettier settings
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+
+  // Python settings
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black",
+
+  // JavaScript/TypeScript settings
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // Go settings
+  "go.useLanguageServer": true,
+
+  // GitHub Copilot settings
   "github.copilot.enable": {
     "*": true,
     "plaintext": false,
     "markdown": true,
     "scminput": false
-  }
+  },
+
+  // Diff editor settings
+  "diffEditor.ignoreTrimWhitespace": false,
+
+  // Additional helpful settings
+  "breadcrumbs.enabled": true,
+
+  // Extension-specific settings
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "icon": "alert",
+    "type": "text",
+    "foreground": "red",
+    "background": "white",
+    "opacity": 50,
+    "iconColour": "blue"
+  },
+  "indentRainbow.colors": [
+    "rgba(255,255,64,0.07)",
+    "rgba(127,255,127,0.07)",
+    "rgba(255,127,255,0.07)",
+    "rgba(79,236,236,0.07)"
+  ]
 }
