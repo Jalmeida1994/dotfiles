@@ -20,3 +20,4 @@ christian-kohler.path-intellisense
 formulahendry.code-runner
 vscode-icons-team.vscode-icons
 zhuangtongfa.Material-theme
+bruno-api-client.bruno

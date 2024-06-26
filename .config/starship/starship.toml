@@ -1,4 +1,4 @@
-# ~/.config/starship.toml
+"$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
 $username\
@@ -27,7 +27,6 @@ truncation_length = 3
 truncate_to_repo = false
 
 [git_branch]
-symbol = " "
 format = "on [$symbol$branch]($style) "
 
 [git_status]
@@ -35,33 +34,17 @@ format = '([\[$all_status$ahead_behind\]]($style) )'
 style = "bold yellow"
 
 [kubernetes]
-format = 'on [⛵ $context \($namespace\)](dimmed green) '
+format = "on [$symbol $context $namespace]($style) "
 disabled = false
 
-[aws]
-symbol = " "
-
 [terraform]
-format = "via [💠 $version$workspace]($style) "
+format = "via [$symbol $version$workspace]($style) "
 
 [docker_context]
-format = "via [🐳 $context](blue bold) "
+format = "via [$symbol $context](blue bold) "
 
 [python]
-symbol = " "
 pyenv_version_name = true
-
-[golang]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[java]
-symbol = " "
-
-[package]
-symbol = " "
 
 [cmd_duration]
 min_time = 500

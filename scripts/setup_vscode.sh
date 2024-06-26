@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
     VSCODE_CONFIG_DIR="$HOME/Library/Application Support/Code/User"
 else
