@@ -33,6 +33,7 @@ run_setup "setup_lazygit.sh"
 run_setup "setup_alacritty.sh"
 run_setup "setup_tmux.sh"
 run_setup "setup_starship.sh"
+run_setup "setup_kind_cluster.sh"
 run_setup "setup_java.sh"
 run_setup "setup_macos_preferences.sh"
 

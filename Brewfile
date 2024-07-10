@@ -50,6 +50,7 @@ brew "gnupg"
 brew "eza"
 brew "git-delta"
 brew "colima"
+brew "poetry"
 
 cask "visual-studio-code"
 cask "google-chrome"
