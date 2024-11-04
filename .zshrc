@@ -1,6 +1,3 @@
-# Profile startup time
-zmodload zsh/zprof
-
 # Setup Homebrew
 if [[ $(uname -m) == 'arm64' ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -41,7 +38,7 @@ autoload -Uz _zinit
 zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
-    atload"_zsh_autosuggest_start" \
+    atload"_zsh_autosuggest_start; bindkey '^ ' autosuggest-accept" \
     zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \
     zsh-users/zsh-completions
@@ -134,7 +131,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 # Key bindings
 bindkey '^R' history-incremental-pattern-search-backward
-bindkey '^ ' autosuggest-accept
 
 # Docker configuration
 export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
@@ -186,6 +182,3 @@ alias use-docker-context='docker context use $1 && set-docker-host'
 mkcd() {
   mkdir -p "$1" && cd "$1"
 }
-
-# Profile results
-zprof
