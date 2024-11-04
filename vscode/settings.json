@@ -24,6 +24,8 @@
   "editor.stickyScroll.enabled": true,
   "editor.inlineSuggest.enabled": true,
 
+  "window.autoDetectColorScheme": true,
+
   // File settings
   "files.autoSave": "afterDelay",
   "files.trimTrailingWhitespace": true,
@@ -41,7 +43,8 @@
   },
 
   // Workbench settings
-  "workbench.colorTheme": "One Dark Pro",
+  "workbench.preferredDarkColorTheme": "Atom One Dark",
+  "workbench.preferredLightColorTheme": "Atom One Dark",
   "workbench.iconTheme": "vscode-icons",
   "workbench.startupEditor": "newUntitledFile",
   "workbench.editor.enablePreview": false,
@@ -90,10 +93,6 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
 
-  // Python settings
-  "python.linting.pylintEnabled": true,
-  "python.formatting.provider": "black",
-
   // JavaScript/TypeScript settings
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -138,5 +137,8 @@
     "rgba(127,255,127,0.07)",
     "rgba(255,127,255,0.07)",
     "rgba(79,236,236,0.07)"
-  ]
+  ],
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "disabled"
+  }
 }

@@ -1,3 +1,6 @@
+# Profile startup time
+zmodload zsh/zprof
+
 # Setup Homebrew
 if [[ $(uname -m) == 'arm64' ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -5,26 +8,21 @@ else
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-# NVM setup
-export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix nvm)/nvm.sh" ] && \. "$(brew --prefix nvm)/nvm.sh"  # This loads nvm
-[ -s "$(brew --prefix nvm)/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix nvm)/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-# Ensure NVM-managed Node.js is used
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-  export PATH="$NVM_DIR/versions/node/$(nvm version)/bin:$PATH"
-fi
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Enable command auto-corrections
-ENABLE_CORRECTION="true"
-
-# Oh My Zsh plugins
-plugins=(git docker kubectl fzf gh)
-
-source $ZSH/oh-my-zsh.sh
+# Basic ZSH configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt SHARE_HISTORY            # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST   # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS         # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS     # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS        # Do not display a line previously found.
+setopt HIST_SAVE_NO_DUPS        # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS       # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY              # Don't execute immediately upon history expansion.
+setopt AUTO_CD                  # If a command is issued that can't be executed as a normal command,
+                               # and the command is the name of a directory, perform the cd command to that directory.
 
 # Zinit installation and setup
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -39,62 +37,114 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load Zinit annexes
-zinit light-mode for \
-    zdharma-continuum/z-a-rust \
-    zdharma-continuum/z-a-as-monitor \
-    zdharma-continuum/z-a-patch-dl \
-    zdharma-continuum/z-a-bin-gem-node
+# Load essential plugins in turbo mode
+zinit wait lucid for \
+    atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+    zsh-users/zsh-completions
 
-# Load additional plugins with Zinit
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-completions
+# Load Git plugin and completions
+zinit ice wait lucid
+zinit snippet OMZP::git
 
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-fi
+# Load additional useful plugins
+zinit wait lucid for \
+    OMZP::colored-man-pages \
+    OMZP::command-not-found
 
-# Tfenv
-export PATH="$HOME/.tfenv/bin:$PATH"
+# Docker completions
+zinit ice wait lucid as"completion"
+zinit snippet https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker
 
-# Jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+# Docker-compose completions
+zinit ice wait lucid as"completion"
+zinit snippet https://raw.githubusercontent.com/docker/compose/master/contrib/completion/zsh/_docker-compose
 
-# Direnv
-eval "$(direnv hook zsh)"
+# NVM lazy loading
+export NVM_DIR="$HOME/.nvm"
+export NVM_LAZY_LOAD=true
+export NVM_COMPLETION=true
 
-# Initialize goenv
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
+nvm() {
+    unset -f nvm node npm
+    [ -s "$(brew --prefix nvm)/nvm.sh" ] && source "$(brew --prefix nvm)/nvm.sh"
+    nvm "$@"
+}
 
-# Add Go binaries to PATH
-export PATH="$PATH:$(go env GOPATH)/bin"
+node() {
+    unset -f nvm node npm
+    [ -s "$(brew --prefix nvm)/nvm.sh" ] && source "$(brew --prefix nvm)/nvm.sh"
+    node "$@"
+}
 
-# Initialize thefuck for command correction (if installed)
-eval $(thefuck --alias)
+npm() {
+    unset -f nvm node npm
+    [ -s "$(brew --prefix nvm)/nvm.sh" ] && source "$(brew --prefix nvm)/nvm.sh"
+    npm "$@"
+}
 
-# Use ripgrep with FZF
+# Lazy load development environment managers
+function load_pyenv() {
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+}
+
+function load_jenv() {
+    eval "$(jenv init -)"
+}
+
+function load_goenv() {
+    eval "$(goenv init -)"
+}
+
+# Create wrapper functions
+python() {
+    load_pyenv
+    unset -f python
+    python "$@"
+}
+
+java() {
+    load_jenv
+    unset -f java
+    java "$@"
+}
+
+go() {
+    load_goenv
+    unset -f go
+    go "$@"
+}
+
+# Defer direnv loading
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
+
+# Load thefuck only when needed
+fuck() {
+    eval $(thefuck --alias)
+    fuck "$@"
+}
+
+# FZF configuration
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Improved history searching
+# Key bindings
 bindkey '^R' history-incremental-pattern-search-backward
-
-# Auto-suggest accepts with right arrow
 bindkey '^ ' autosuggest-accept
 
-# Use starship prompt
-eval "$(starship init zsh)"
-
-# Set DOCKER_HOST to colima.sock
+# Docker configuration
 export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
+export DOCKER_BUILDKIT=1
+
+# Path additions
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Initialize starship prompt
+eval "$(starship init zsh)"
 
 # Aliases
 alias update='brew update && brew upgrade'
@@ -137,8 +187,5 @@ mkcd() {
   mkdir -p "$1" && cd "$1"
 }
 
-# Add Rust to PATH
-export PATH="$HOME/.cargo/bin:$PATH"
-
-# Use fzf for fuzzy file and history search
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Profile results
+zprof
