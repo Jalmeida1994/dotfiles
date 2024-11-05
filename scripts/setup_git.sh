@@ -124,8 +124,35 @@ if ask_yes_no "Do you want to set up SSH keys?"; then
 
     # Add SSH keys to ssh-agent
     eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa_personal
-    ssh-add ~/.ssh/id_rsa_work
+
+    # Create SSH config directory if it doesn't exist
+    mkdir -p ~/.ssh/config.d
+
+    # Create a more comprehensive SSH config
+    cat > ~/.ssh/config.d/github <<EOF
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_personal
+    AddKeysToAgent yes
+    UseKeychain yes
+
+Host github-work
+    HostName $work_hostname
+    User git
+    IdentityFile ~/.ssh/id_rsa_work
+    AddKeysToAgent yes
+    UseKeychain yes
+EOF
+
+    # Include the config.d directory in the main config
+    if ! grep -q "Include config.d/\*" ~/.ssh/config; then
+        echo "Include config.d/*" | cat - ~/.ssh/config > temp && mv temp ~/.ssh/config
+    fi
+
+    # Set correct permissions
+    chmod 600 ~/.ssh/config.d/*
+    chmod 600 ~/.ssh/config
 
     # Display SSH public keys
     echo "Add these SSH public keys to your GitHub accounts:"

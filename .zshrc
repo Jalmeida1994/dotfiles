@@ -5,6 +5,50 @@ else
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# SSH Agent configuration
+ssh_agent_start() {
+    # Create runtime directory if it doesn't exist
+    if [[ ! -d "$XDG_RUNTIME_DIR" ]]; then
+        mkdir -p "$XDG_RUNTIME_DIR"
+        chmod 700 "$XDG_RUNTIME_DIR"
+    fi
+
+    # Check if ssh-agent is already running
+    if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+        # Start new agent and save environment variables
+        ssh-agent > "$XDG_RUNTIME_DIR/ssh-agent.env"
+    fi
+
+    # Load environment variables if they exist
+    if [[ -f "$XDG_RUNTIME_DIR/ssh-agent.env" ]]; then
+        source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+    fi
+}
+
+ssh_keys_add() {
+    local keys_to_add=("$HOME/.ssh/id_rsa_personal" "$HOME/.ssh/id_rsa_work")
+    local keys_loaded
+    keys_loaded=$(ssh-add -l)
+
+    for key in "${keys_to_add[@]}"; do
+        if [[ -f "$key" ]] && ! echo "$keys_loaded" | grep -q "$key"; then
+            ssh-add "$key" 2>/dev/null
+        fi
+    done
+}
+
+# Create XDG_RUNTIME_DIR if it doesn't exist
+if [[ -z "${XDG_RUNTIME_DIR}" ]]; then
+    export XDG_RUNTIME_DIR="/tmp/${UID}-runtime-dir"
+    if ! [[ -d "${XDG_RUNTIME_DIR}" ]]; then
+        mkdir -m 0700 -p "${XDG_RUNTIME_DIR}"
+    fi
+fi
+
+# Start SSH agent and add keys
+ssh_agent_start
+ssh_keys_add
+
 # Basic ZSH configuration
 HISTFILE=~/.zsh_history
 HISTSIZE=50000
